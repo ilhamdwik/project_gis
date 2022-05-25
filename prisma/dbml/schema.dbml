@@ -1,0 +1,30 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table kabupaten_kota {
+  id String [pk]
+  nama String [not null]
+  jml_puskesmas Int [not null]
+  long_kordinat String [not null]
+  lat_kordinat String [not null]
+  dbd dbd [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [default: `now()`, not null]
+}
+
+Table dbd {
+  id String [pk]
+  kabupaten_kota_id String [not null]
+  jml_kasus_laki Int [not null]
+  jml_kasus_perempuan Int [not null]
+  jml_meninggal_laki Int [not null]
+  jml_meninggal_perempuan Int [not null]
+  cfr_laki Float
+  cfr_perempuan Float
+  kabupaten_kota kabupaten_kota [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [default: `now()`, not null]
+}
+
+Ref: dbd.kabupaten_kota_id > kabupaten_kota.id

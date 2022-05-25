@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output = "../node_modules/.prisma/client"
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model kabupaten_kota {
+  id            String    @id  @db.VarChar(50) @default(uuid())
+  nama          String    @db.VarChar(255)
+  jml_puskesmas Int
+  long_kordinat String    @db.VarChar(255)
+  lat_kordinat  String    @db.VarChar(255)
+  dbd           dbd[]
+
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @default(now()) @updatedAt
+}
+
+model dbd {
+  id                      String @id  @db.VarChar(50) @default(uuid())
+  kabupaten_kota_id       String @db.VarChar(50)
+  jml_kasus_laki          Int
+  jml_kasus_perempuan     Int
+  jml_meninggal_laki      Int
+  jml_meninggal_perempuan Int
+  cfr_laki                Float?
+  cfr_perempuan           Float?
+  kabupaten_kota          kabupaten_kota @relation(fields: [kabupaten_kota_id], references: [id])
+
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @default(now()) @updatedAt
+}
